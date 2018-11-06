@@ -24,10 +24,12 @@ bool Player::checkHandForBook(Card &c1, Card &c2);
 
 bool Player::rankInHand(Card c) const{
    int r = c.getRank();
-   vector<Card>::iterator iter;
-   for(iter = myHand.begin(); iter != myHand.end(); iter++){
-
+   for(int i = 0; i < myHand.size(); i++){
+        if (myHand[i].getRank() == c.getRank()){
+            return true;
+        }
    }
+   return false;
 }
 
 
