@@ -17,6 +17,10 @@
 #define _DECK_H
 
 #include "card.h"
+#include <ctime>
+#include <cstdlib>
+#include <algorithm>
+
 
 
 class Deck

@@ -59,7 +59,10 @@ private:
 
 };
 
-ostream& operator << (ostream& out, const Card& c);
+ostream& operator << (ostream& out, const Card& c){
+    out << c.toString();
+    return out;
+}
 
 
 
