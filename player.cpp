@@ -61,10 +61,14 @@ Card Player::removeCardFromHand(Card c){
 }
 
 string Player::showHand() const{
+    string back = "";
+
     for(int i = 0; i < myHand.size(); i++){
-        cout << myHand[i]<< " ";
+        back += (myHand[i].toString()) + " ";
     }
-    cout << endl;
+
+    return back;
+
 }
 string Player::showBooks() const{
     for(int i = 0; i < myBook.size(); i++){

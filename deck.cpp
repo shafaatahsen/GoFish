@@ -9,7 +9,7 @@
 Deck::Deck(){ // pristine, sorted deck
     myIndex = 0;
     for(int i = Card::spades; i<=Card::clubs; i++){
-        for(int j = 0; j<14; j++){
+        for(int j = 1; j<14; j++){
             myCards[myIndex] = Card(j,static_cast<Card::Suit>(i));
             myIndex++;
         }

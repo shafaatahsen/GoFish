@@ -112,3 +112,8 @@ bool Card::operator != (const Card& rhs) const{
     return true;
 
 }
+
+ostream& operator << (ostream& out, const Card& c){
+    out << c.toString();
+    return out;
+}

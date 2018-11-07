@@ -24,7 +24,7 @@
 #define _CARD_H
 
 #include <iostream>
-#include <string>
+#include <string.h>
 using namespace std;
 
 class Card
@@ -59,10 +59,7 @@ private:
 
 };
 
-ostream& operator << (ostream& out, const Card& c){
-    out << c.toString();
-    return out;
-}
+ostream& operator << (ostream& out, const Card& c);
 
 
 
