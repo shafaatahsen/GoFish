@@ -4,6 +4,7 @@
 
 #include "deck.h"
 #include "card.h"
+#include <assert.h>
 
 Deck::Deck(){ // pristine, sorted deck
     myIndex = 0;
@@ -19,19 +20,27 @@ Deck::Deck(){ // pristine, sorted deck
 }
 
 void Deck::shuffle(){  // shuffle the deck, all 52 cards present
+    unsigned int currentTime = (unsigned)time(NULL);
+
+    srand(currentTime); //seed the random number generator
 
 
-    random_shuffle(&myCards[0],&myCards[51]);
+
+    for(int i = 0; i<52;i++){
+//cout<<rand()<<endl; test if numbers are different each time
+        int randIndex = rand()%52;
+        Card temp = myCards[randIndex];
+        myCards[randIndex] = myCards[i];
+        myCards[i] = temp;
+    }
 
 
 }
 Card Deck::dealCard(){ // get a card, after 52 are dealt, fail
     int i = myIndex;
     myIndex++;
-    if(myIndex>52)
-        return NULL;
-    else
-        return myCards[i];
+    assert(myIndex < 52);
+    return myCards[i];
 
 
 }
