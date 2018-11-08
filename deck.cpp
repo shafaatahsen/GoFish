@@ -39,7 +39,7 @@ void Deck::shuffle(){  // shuffle the deck, all 52 cards present
 Card Deck::dealCard(){ // get a card, after 52 are dealt, fail
     int i = myIndex;
     myIndex++;
-    assert(myIndex < 52);
+    assert(myIndex < 53);
     return myCards[i];
 
 

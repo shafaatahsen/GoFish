@@ -16,9 +16,9 @@ void Player::bookCards(Card c1, Card c2){
 
 
 
-bool Player::checkHandForBook(Card &c1, Card &c2){
-    return (c1 == c2);
-}
+//bool Player::checkHandForBook(Card &c1, Card &c2){
+//    return (c1 == c2);
+//}
 
 
 bool Player::rankInHand(Card c) const{
@@ -33,7 +33,19 @@ bool Player::rankInHand(Card c) const{
 
 
 Card Player::chooseCardFromHand() const{
-    return myHand[0];
+    unsigned int currentTime = (unsigned)time(NULL);
+
+    srand(currentTime); //seed the random number generator
+
+
+    Card temp;
+    for(int i = 0; i<myHand.size();i++){
+//cout<<rand()<<endl; test if numbers are different each time
+        int randIndex = rand()%myHand.size();
+        temp = myHand[randIndex];
+    }
+
+    return temp;
 }
 
 
@@ -71,10 +83,13 @@ string Player::showHand() const{
 
 }
 string Player::showBooks() const{
+    string back = "";
+
     for(int i = 0; i < myBook.size(); i++){
-        cout << myBook[i]<< " ";
+        back += (myBook[i].toString()) + " ";
     }
-    cout << endl;
+
+    return back;
 }
 
 int Player::getHandSize() const{
