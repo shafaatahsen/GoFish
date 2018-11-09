@@ -17,7 +17,7 @@ void dealHand(Deck &d, Player &p, int numCards);
 
 int main( )
 {
-    ofstream myfile ("game.txt");
+    ofstream myfile ("game_results.txt");
     Player p1("Joe");
     Player p2("Jane");
 
