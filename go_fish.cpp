@@ -2,6 +2,7 @@
 // This is a small demonstration program showing how the Card and Deck classes are used.
 #include <iostream>    // Provides cout and cin
 #include <cstdlib>     // Provides EXIT_SUCCESS
+#include <fstream>
 #include "player.h"
 #include "deck.h"
 
@@ -16,7 +17,125 @@ void dealHand(Deck &d, Player &p, int numCards);
 
 int main( )
 {
-    int numCards = 13;
+    ofstream myfile ("game.txt");
+    Player p1("Joe");
+    Player p2("Jane");
+
+    Deck d;  //create a deck of cards
+    d.shuffle();
+
+    dealHand(d, p1, 7);
+    dealHand(d, p2, 7);
+    int turn = 0;
+    Card c;
+    string rank;
+
+    while((p1.getBookSize() + p2.getBookSize()) <52){
+        //book any pairs in hand
+        Card c1,c2;
+        while(p1.checkHandForPair(c1,c2)){
+            cout<<p1.getName()<< " books "<<c1<<" and "<<c2<<endl;
+            myfile <<p1.getName()<< " books "<<c1<<" and "<<c2<<endl;
+            p1.bookCards(c1, c2);
+            p1.removeCardFromHand(c1);
+            p1.removeCardFromHand(c2);
+        }
+
+
+
+        while(p2.checkHandForPair(c1,c2)){
+            cout<<p2.getName()<< " books "<<c1<<" and "<<c2<<endl;
+            myfile<<p2.getName()<< " books "<<c1<<" and "<<c2<<endl;
+            p2.bookCards(c1, c2);
+            p2.removeCardFromHand(c1);
+            p2.removeCardFromHand(c2);
+        }
+
+        if ((p1.getBookSize() + p2.getBookSize()) >= 52)
+            break;
+
+        if(turn%2 ==0){
+
+            //if handsize is 0 draw and change turns
+            if(p1.getHandSize()==0){
+                p1.addCard(d.dealCard());
+                continue;
+            }
+
+            c = p1.chooseCardFromHand();
+            rank = c.rankString(c.getRank());
+            cout<<p1.getName()<< " asks - Do you have a "<<rank<<"?"<<endl;
+            myfile<<p1.getName()<< " asks - Do you have a "<<rank<<"?"<<endl;
+
+            if(p2.rankInHand(c)){
+                cout<<p2.getName()<<" says - Yes. I have a "<<rank<<endl;
+                myfile<<p2.getName()<<" says - Yes. I have a "<<rank<<endl;
+                p1.bookCards(c,p2.removeCardFromHand(c));
+                p1.removeCardFromHand(c);
+                cout<<p1.getName()<<" books the "<<c<<endl;
+                myfile<<p1.getName()<<" books the "<<c<<endl;
+            }
+            else{
+                cout<<p2.getName()<<" says - Go Fish "<<endl;
+                myfile<<p2.getName()<<" says - Go Fish "<<endl;
+                Card dc = d.dealCard();
+                p1.addCard(dc);
+                cout<<p2.getName()<<" draws "<<dc<<endl;
+                myfile<<p2.getName()<<" draws "<<dc<<endl;
+            }
+            turn++;
+
+        }
+        else{
+            //if handsize is 0 draw and change turns
+            if(p2.getHandSize()==0){
+                p2.addCard(d.dealCard());
+                continue;
+            }
+
+            c = p2.chooseCardFromHand();
+            rank = c.rankString(c.getRank());
+            cout<<p2.getName()<< " asks - Do you have a "<<rank<<"?"<<endl;
+            myfile<<p2.getName()<< " asks - Do you have a "<<rank<<"?"<<endl;
+
+            if(p1.rankInHand(c)){
+                cout<<p1.getName()<<" says - Yes. I have a "<<rank<<endl;
+                myfile<<p1.getName()<<" says - Yes. I have a "<<rank<<endl;
+                p2.bookCards(c,p1.removeCardFromHand(c));
+                p2.removeCardFromHand(c);
+                cout<<p2.getName()<<" books the "<<c<<endl;
+                myfile<<p2.getName()<<" books the "<<c<<endl;
+            }
+            else{
+                cout<<p1.getName()<<" says - Go Fish "<<endl;
+                myfile<<p1.getName()<<" says - Go Fish "<<endl;
+                Card dc = d.dealCard();
+                p2.addCard(dc);
+                cout<<p1.getName()<<" draws "<<dc<<endl;
+                myfile<<p1.getName()<<" draws "<<dc<<endl;
+            }
+            turn++;
+        }
+        cout<<"\n"<<endl;
+    }
+    if(p1.getBookSize() == p2.getBookSize()){
+        cout<<p1.getName()<<" and "<<p2.getName()<<" have same book size. It's a tie!";
+        myfile<<p1.getName()<<" and "<<p2.getName()<<" have same book size. It's a tie!";
+    }
+
+    else if(p1.getBookSize()>p2.getBookSize()){
+        cout<<p1.getName()<<" has a larger book. "<<p1.getName()<<" wins!";
+        myfile<<p1.getName()<<" has a larger book. "<<p1.getName()<<" wins!";
+    }
+    else{
+        cout<<p2.getName()<<" has a larger book. "<<p2.getName()<<" wins!";
+        myfile<<p2.getName()<<" has a larger book. "<<p2.getName()<<" wins!";
+    }
+
+
+
+
+    /*int numCards = 13;
 
     Player p1("Joe");
     Player p2("Jane");
@@ -89,7 +208,7 @@ int main( )
     }
 
 
-
+*/
     return EXIT_SUCCESS;
 }
 
